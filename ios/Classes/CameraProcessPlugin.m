@@ -6,7 +6,7 @@
     FlutterMethodChannel* channel = [FlutterMethodChannel
                                      methodChannelWithName:@"camera_process"
                                      binaryMessenger:[registrar messenger]];
-    GoogleMlKitPlugin* instance = [[GoogleMlKitPlugin alloc] init];
+    CameraProcessPlugin* instance = [[CameraProcessPlugin alloc] init];
 
     // Add vision detectors
     NSMutableArray *handlers = [NSMutableArray new];

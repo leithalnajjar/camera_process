@@ -1,4 +1,4 @@
-#import "GoogleMlKitPlugin.h"
+#import "CameraProcessPlugin.h"
 
 @implementation MLKVisionImage(FlutterPlugin)
 
