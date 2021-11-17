@@ -23,7 +23,7 @@
 }
 
 - (void)handleDetection:(FlutterMethodCall *)call result:(FlutterResult)result {
-    CameraProcessVisionImage *image = [CameraProcessVisionImage visionImageFromData:call.arguments[@"imageData"]];
+    MLKVisionImage *image = [MLKVisionImage visionImageFromData:call.arguments[@"imageData"]];
     NSDictionary *dictionary = call.arguments[@"options"];
     
     MLKFaceDetectorOptions *options = [[MLKFaceDetectorOptions alloc] init];

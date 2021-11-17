@@ -1,8 +1,8 @@
-#import "CameraProcessPlugin.h"
+#import "GoogleMlKitPlugin.h"
 
-@implementation CameraProcessVisionImage(FlutterPlugin)
+@implementation MLKVisionImage(FlutterPlugin)
 
-+ (CameraProcessVisionImage *)visionImageFromData:(NSDictionary *)imageData {
++ (MLKVisionImage *)visionImageFromData:(NSDictionary *)imageData {
     NSString *imageType = imageData[@"type"];
     
     if ([@"file" isEqualToString:imageType]) {
@@ -17,7 +17,7 @@
     }
 }
 
-+ (CameraProcessVisionImage *)filePathToVisionImage:(NSString *)filePath {
++ (MLKVisionImage *)filePathToVisionImage:(NSString *)filePath {
     UIImage *image = [UIImage imageWithContentsOfFile:filePath];
     
     if (image.imageOrientation != UIImageOrientationUp) {
@@ -31,10 +31,10 @@
         image = newImage;
     }
     
-    return [[CameraProcessVisionImage alloc] initWithImage:image];
+    return [[MLKVisionImage alloc] initWithImage:image];
 }
 
-+ (CameraProcessVisionImage *)bytesToVisionImage:(NSDictionary *)imageData {
++ (MLKVisionImage *)bytesToVisionImage:(NSDictionary *)imageData {
     FlutterStandardTypedData *byteData = imageData[@"bytes"];
     NSData *imageBytes = byteData.data;
     
@@ -127,7 +127,7 @@
     return pxBuffer;
 }
 
-+ (CameraProcessVisionImage *)pixelBufferToVisionImage:(CVPixelBufferRef)pixelBufferRef {
++ (MLKVisionImage *)pixelBufferToVisionImage:(CVPixelBufferRef)pixelBufferRef {
     CIImage *ciImage = [CIImage imageWithCVPixelBuffer:pixelBufferRef];
     
     CIContext *temporaryContext = [CIContext contextWithOptions:nil];
@@ -139,7 +139,7 @@
     UIImage *uiImage = [UIImage imageWithCGImage:videoImage];
     CVPixelBufferRelease(pixelBufferRef);
     CGImageRelease(videoImage);
-    return [[CameraProcessVisionImage alloc] initWithImage:uiImage];
+    return [[MLKVisionImage alloc] initWithImage:uiImage];
 }
 
 @end

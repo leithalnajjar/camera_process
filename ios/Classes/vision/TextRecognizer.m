@@ -24,7 +24,7 @@
 }
 
 - (void)handleDetection:(FlutterMethodCall *)call result:(FlutterResult)result {
-    CameraProcessVisionImage *image = [CameraProcessVisionImage visionImageFromData:call.arguments[@"imageData"]];
+    MLKVisionImage *image = [MLKVisionImage visionImageFromData:call.arguments[@"imageData"]];
     textRecognizer = [MLKTextRecognizer textRecognizer];
     [textRecognizer processImage:image
                       completion:^(MLKText *_Nullable visionText, NSError *_Nullable error) {

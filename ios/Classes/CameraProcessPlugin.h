@@ -7,9 +7,8 @@
 @end
 
 
-
-@interface CameraProcessVisionImage(FlutterPlugin)
-+ (CameraProcessVisionImage *)visionImageFromData:(NSDictionary *)imageData;
+@interface MLKVisionImage(FlutterPlugin)
++ (MLKVisionImage *)visionImageFromData:(NSDictionary *)imageData;
 @end
 
 @protocol Handler
