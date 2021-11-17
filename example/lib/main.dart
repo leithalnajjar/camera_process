@@ -1,12 +1,13 @@
 import 'dart:io';
+import 'dart:ui';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:camera_process/camera_process.dart';
-import 'package:camera_process_example/VisionDetectorViews/painters/face_detector_painter.dart';
-import 'package:camera_process_example/VisionDetectorViews/painters/text_detector_painter.dart';
+
 
 List<CameraDescription> cameras = [];
 
@@ -399,5 +400,142 @@ class _CameraViewState extends State<CameraView> {
     final inputImage = InputImage.fromBytes(bytes: bytes, inputImageData: inputImageData);
 
     widget.onImage(inputImage);
+  }
+}
+
+// -------------------------------------------------------------
+
+class TextDetectorPainter extends CustomPainter {
+  TextDetectorPainter(this.recognisedText, this.absoluteImageSize, this.rotation);
+
+  final RecognisedText recognisedText;
+  final Size absoluteImageSize;
+  final InputImageRotation rotation;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.0
+      ..color = Colors.lightGreenAccent;
+
+    final Paint background = Paint()..color = Color(0x99000000);
+
+    for (final textBlock in recognisedText.blocks) {
+      final ParagraphBuilder builder = ParagraphBuilder(
+        ParagraphStyle(textAlign: TextAlign.left, fontSize: 16, textDirection: TextDirection.ltr),
+      );
+      builder.pushStyle(ui.TextStyle(color: Colors.lightGreenAccent, background: background));
+      builder.addText('${textBlock.text}');
+      builder.pop();
+
+      final left = translateX(textBlock.rect.left, rotation, size, absoluteImageSize);
+      final top = translateY(textBlock.rect.top, rotation, size, absoluteImageSize);
+      final right = translateX(textBlock.rect.right, rotation, size, absoluteImageSize);
+      final bottom = translateY(textBlock.rect.bottom, rotation, size, absoluteImageSize);
+
+      canvas.drawRect(
+        Rect.fromLTRB(left, top, right, bottom),
+        paint,
+      );
+
+      canvas.drawParagraph(
+        builder.build()
+          ..layout(ParagraphConstraints(
+            width: right - left,
+          )),
+        Offset(left, top),
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(TextDetectorPainter oldDelegate) {
+    return oldDelegate.recognisedText != recognisedText;
+  }
+}
+
+class FaceDetectorPainter extends CustomPainter {
+  FaceDetectorPainter(this.faces, this.absoluteImageSize, this.rotation);
+
+  final List<Face> faces;
+  final Size absoluteImageSize;
+  final InputImageRotation rotation;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.0
+      ..color = Colors.red;
+
+    for (final Face face in faces) {
+      canvas.drawRect(
+        Rect.fromLTRB(
+          translateX(face.boundingBox.left, rotation, size, absoluteImageSize),
+          translateY(face.boundingBox.top, rotation, size, absoluteImageSize),
+          translateX(face.boundingBox.right, rotation, size, absoluteImageSize),
+          translateY(face.boundingBox.bottom, rotation, size, absoluteImageSize),
+        ),
+        paint,
+      );
+
+      void paintContour(FaceContourType type) {
+        final faceContour = face.getContour(type);
+        if (faceContour?.positionsList != null) {
+          for (Offset point in faceContour!.positionsList) {
+            canvas.drawCircle(
+                Offset(
+                  translateX(point.dx, rotation, size, absoluteImageSize),
+                  translateY(point.dy, rotation, size, absoluteImageSize),
+                ),
+                1,
+                paint);
+          }
+        }
+      }
+
+      paintContour(FaceContourType.face);
+      paintContour(FaceContourType.leftEyebrowTop);
+      paintContour(FaceContourType.leftEyebrowBottom);
+      paintContour(FaceContourType.rightEyebrowTop);
+      paintContour(FaceContourType.rightEyebrowBottom);
+      paintContour(FaceContourType.leftEye);
+      paintContour(FaceContourType.rightEye);
+      paintContour(FaceContourType.upperLipTop);
+      paintContour(FaceContourType.upperLipBottom);
+      paintContour(FaceContourType.lowerLipTop);
+      paintContour(FaceContourType.lowerLipBottom);
+      paintContour(FaceContourType.noseBridge);
+      paintContour(FaceContourType.noseBottom);
+      paintContour(FaceContourType.leftCheek);
+      paintContour(FaceContourType.rightCheek);
+    }
+  }
+
+  @override
+  bool shouldRepaint(FaceDetectorPainter oldDelegate) {
+    return oldDelegate.absoluteImageSize != absoluteImageSize || oldDelegate.faces != faces;
+  }
+}
+
+double translateX(double x, InputImageRotation rotation, Size size, Size absoluteImageSize) {
+  switch (rotation) {
+    case InputImageRotation.Rotation_90deg:
+      return x * size.width / (Platform.isIOS ? absoluteImageSize.width : absoluteImageSize.height);
+    case InputImageRotation.Rotation_270deg:
+      return size.width - x * size.width / (Platform.isIOS ? absoluteImageSize.width : absoluteImageSize.height);
+    default:
+      return x * size.width / absoluteImageSize.width;
+  }
+}
+
+double translateY(double y, InputImageRotation rotation, Size size, Size absoluteImageSize) {
+  switch (rotation) {
+    case InputImageRotation.Rotation_90deg:
+    case InputImageRotation.Rotation_270deg:
+      return y * size.height / (Platform.isIOS ? absoluteImageSize.height : absoluteImageSize.width);
+    default:
+      return y * size.height / absoluteImageSize.height;
   }
 }
