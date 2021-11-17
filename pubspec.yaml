@@ -1,6 +1,6 @@
 name: camera_process
-description: A new Flutter project.
-version: 0.0.3
+description: This plugin, Recognize face and text from photos or camera, through the use of MLKit Google.
+version: 0.0.4
 homepage: https://github.com/leithalnajjar/camera_process.git
 
 environment:

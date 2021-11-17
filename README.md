@@ -1,15 +1,23 @@
-# camera_process
+# Camera Process plugin
 
-A new Flutter project.
+This plugin, Recognize face and text from photos or camera, through the use of MLKit Google.
 
-## Getting Started
+## Requirements
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+###ios
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Minimum iOS Deployment Target: 10.0
+
+###Android
+
+- minSdkVersion: 21
+- targetSdkVersion: 30
+
+## Features
+
+| Feature                                                                                       | Android | iOS |
+|-----------------------------------------------------------------------------------------------|---------|-----|
+|[Text Recognition](https://developers.google.com/ml-kit/vision/text-recognition)               | ✅      | ✅  |
+|[Face Detection](https://developers.google.com/ml-kit/vision/face-detection)                   | ✅      | ✅  |
+
 
