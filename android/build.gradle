@@ -1,0 +1,41 @@
+group 'com.alnajjar.camera_process'
+version '1.0'
+
+buildscript {
+    repositories {
+        mavenLocal()
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.1.0'
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 30
+
+    defaultConfig {
+        minSdkVersion 21
+    }
+
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+}
+
+dependencies{
+    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.0'
+    implementation 'com.google.android.gms:play-services-mlkit-face-detection:16.2.0'
+}
