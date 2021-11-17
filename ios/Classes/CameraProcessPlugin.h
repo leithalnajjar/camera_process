@@ -1,5 +1,7 @@
 #import <Flutter/Flutter.h>
 
+#import <MLKitVision/MLKitVision.h>
+
 @interface CameraProcessPlugin : NSObject<FlutterPlugin>
 @property(nonatomic, readwrite) NSMutableDictionary *handlers;
 @end

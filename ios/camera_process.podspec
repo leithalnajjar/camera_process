@@ -4,12 +4,12 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'camera_process'
-  s.version          = '0.0.1'
+  s.version          = '0.0.2'
   s.summary          = 'A new Flutter project.'
   s.description      = <<-DESC
 A new Flutter project.
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'https://github.com/leithalnajjar/camera_process.git'
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'Your Company' => 'email@example.com' }
   s.source           = { :path => '.' }

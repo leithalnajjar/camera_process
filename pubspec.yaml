@@ -1,7 +1,6 @@
 name: camera_process
 description: A new Flutter project.
-version: 0.0.1
-authors: Leith Alnajjar
+version: 0.0.2
 homepage: https://github.com/leithalnajjar/camera_process.git
 
 environment:
