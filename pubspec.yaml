@@ -1,6 +1,6 @@
 name: camera_process
 description: This plugin, Recognize face and text from photos or camera, through the use of MLKit Google.
-version: 0.0.4
+version: 0.0.5
 homepage: https://github.com/leithalnajjar/camera_process.git
 
 environment:
