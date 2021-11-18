@@ -25,7 +25,8 @@ extension InputImageFormatMethods on InputImageFormat {
   int get rawValue => _values[this] ?? 17;
 
   static InputImageFormat? fromRawValue(int rawValue) {
-    return InputImageFormatMethods._values.map((k, v) => MapEntry(v, k))[rawValue];
+    return InputImageFormatMethods._values
+        .map((k, v) => MapEntry(v, k))[rawValue];
   }
 }
 
@@ -33,7 +34,12 @@ extension InputImageFormatMethods on InputImageFormat {
 enum CustomLocalModel { asset, file }
 
 // The camera rotation angle to be specified
-enum InputImageRotation { Rotation_0deg, Rotation_90deg, Rotation_180deg, Rotation_270deg }
+enum InputImageRotation {
+  Rotation_0deg,
+  Rotation_90deg,
+  Rotation_180deg,
+  Rotation_270deg
+}
 
 extension InputImageRotationMethods on InputImageRotation {
   static Map<InputImageRotation, int> get _values => {
@@ -46,7 +52,8 @@ extension InputImageRotationMethods on InputImageRotation {
   int get rawValue => _values[this] ?? 0;
 
   static InputImageRotation? fromRawValue(int rawValue) {
-    return InputImageRotationMethods._values.map((k, v) => MapEntry(v, k))[rawValue];
+    return InputImageRotationMethods._values
+        .map((k, v) => MapEntry(v, k))[rawValue];
   }
 }
 
@@ -81,7 +88,11 @@ class Vision {
 
 /// [InputImage] is the format Google' Ml kit takes to process the image
 class InputImage {
-  InputImage._({String? filePath, Uint8List? bytes, required String imageType, InputImageData? inputImageData})
+  InputImage._(
+      {String? filePath,
+      Uint8List? bytes,
+      required String imageType,
+      InputImageData? inputImageData})
       : filePath = filePath,
         bytes = bytes,
         imageType = imageType,
@@ -98,8 +109,10 @@ class InputImage {
   }
 
   /// Create InputImage using bytes.
-  factory InputImage.fromBytes({required Uint8List bytes, required InputImageData inputImageData}) {
-    return InputImage._(bytes: bytes, imageType: 'bytes', inputImageData: inputImageData);
+  factory InputImage.fromBytes(
+      {required Uint8List bytes, required InputImageData inputImageData}) {
+    return InputImage._(
+        bytes: bytes, imageType: 'bytes', inputImageData: inputImageData);
   }
 
   final String? filePath;
@@ -108,7 +121,13 @@ class InputImage {
   final InputImageData? inputImageData;
 
   Map<String, dynamic> _getImageData() {
-    var map = <String, dynamic>{'bytes': bytes, 'type': imageType, 'path': filePath, 'metadata': inputImageData == null ? 'none' : inputImageData!.getMetaData()};
+    var map = <String, dynamic>{
+      'bytes': bytes,
+      'type': imageType,
+      'path': filePath,
+      'metadata':
+          inputImageData == null ? 'none' : inputImageData!.getMetaData()
+    };
     return map;
   }
 }
@@ -129,7 +148,11 @@ class InputImageData {
   /// Not used on Android.
   final List<InputImagePlaneMetadata>? planeData;
 
-  InputImageData({required this.size, required this.imageRotation, required this.inputImageFormat, required this.planeData});
+  InputImageData(
+      {required this.size,
+      required this.imageRotation,
+      required this.inputImageFormat,
+      required this.planeData});
 
   /// Function to get the metadata of image processing purposes
   Map<String, dynamic> getMetaData() {
@@ -138,7 +161,9 @@ class InputImageData {
       'height': size.height,
       'rotation': imageRotation.rawValue,
       'imageFormat': inputImageFormat.rawValue,
-      'planeData': planeData?.map((InputImagePlaneMetadata plane) => plane._serialize()).toList(),
+      'planeData': planeData
+          ?.map((InputImagePlaneMetadata plane) => plane._serialize())
+          .toList(),
     };
     return map;
   }
@@ -174,22 +199,30 @@ class InputImagePlaneMetadata {
 /// Class to manage firebase remote models.
 class RemoteModelManager {
   Future<bool> isModelDownloaded(String modelName) async {
-    final result = await Vision.channel.invokeMethod('vision#manageRemoteModel', <String, dynamic>{"task": "check", "model": modelName});
+    final result = await Vision.channel.invokeMethod('vision#manageRemoteModel',
+        <String, dynamic>{"task": "check", "model": modelName});
     return result as bool;
   }
 
   /// Downloads a model.
   /// Returns `success` if model downloads successfully or model is already downloaded.
   /// On failing to download it throws an error.
-  Future<String> downloadModel(String modelTag, {bool isWifiRequired = true}) async {
-    final result = await Vision.channel.invokeMethod("vision#manageRemoteModel", <String, dynamic>{"task": "download", "model": modelTag, "wifi": isWifiRequired});
+  Future<String> downloadModel(String modelTag,
+      {bool isWifiRequired = true}) async {
+    final result = await Vision.channel.invokeMethod(
+        "vision#manageRemoteModel", <String, dynamic>{
+      "task": "download",
+      "model": modelTag,
+      "wifi": isWifiRequired
+    });
     return result.toString();
   }
 
   /// Deletes a model.
   /// Returns `success` if model is deleted successfully or model is not present.
   Future<String> deleteModel(String modelTag) async {
-    final result = await Vision.channel.invokeMethod("vision#manageRemoteModel", <String, dynamic>{
+    final result = await Vision.channel
+        .invokeMethod("vision#manageRemoteModel", <String, dynamic>{
       "task": "delete",
       "model": modelTag,
     });

@@ -8,7 +8,6 @@ import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:camera_process/camera_process.dart';
 
-
 List<CameraDescription> cameras = [];
 
 Future<void> main() async {
@@ -48,20 +47,28 @@ class HomeScreen extends StatelessWidget {
                     tileColor: Theme.of(context).primaryColor,
                     title: const Text(
                       'Face Detector',
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => FaceDetectorView()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FaceDetectorView()));
                     },
                   ),
                   ListTile(
                     tileColor: Theme.of(context).primaryColor,
                     title: const Text(
                       'Text Detector',
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => TextDetectorView()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => TextDetectorView()));
                     },
                   ),
                 ],
@@ -106,8 +113,12 @@ class _TextDetectorViewState extends State<TextDetectorView> {
     isBusy = true;
     final recognisedText = await textDetector.processImage(inputImage);
     print('Found ${recognisedText.blocks.length} textBlocks');
-    if (inputImage.inputImageData?.size != null && inputImage.inputImageData?.imageRotation != null) {
-      final painter = TextDetectorPainter(recognisedText, inputImage.inputImageData!.size, inputImage.inputImageData!.imageRotation);
+    if (inputImage.inputImageData?.size != null &&
+        inputImage.inputImageData?.imageRotation != null) {
+      final painter = TextDetectorPainter(
+          recognisedText,
+          inputImage.inputImageData!.size,
+          inputImage.inputImageData!.imageRotation);
       customPaint = CustomPaint(painter: painter);
     } else {
       customPaint = null;
@@ -125,7 +136,8 @@ class FaceDetectorView extends StatefulWidget {
 }
 
 class _FaceDetectorViewState extends State<FaceDetectorView> {
-  FaceDetector faceDetector = CameraProcess.vision.faceDetector(FaceDetectorOptions(
+  FaceDetector faceDetector =
+      CameraProcess.vision.faceDetector(FaceDetectorOptions(
     enableContours: true,
     enableClassification: true,
   ));
@@ -155,8 +167,12 @@ class _FaceDetectorViewState extends State<FaceDetectorView> {
     isBusy = true;
     final faces = await faceDetector.processImage(inputImage);
     print('Found ${faces.length} faces');
-    if (inputImage.inputImageData?.size != null && inputImage.inputImageData?.imageRotation != null) {
-      final painter = FaceDetectorPainter(faces, inputImage.inputImageData!.size, inputImage.inputImageData!.imageRotation);
+    if (inputImage.inputImageData?.size != null &&
+        inputImage.inputImageData?.imageRotation != null) {
+      final painter = FaceDetectorPainter(
+          faces,
+          inputImage.inputImageData!.size,
+          inputImage.inputImageData!.imageRotation);
       customPaint = CustomPaint(painter: painter);
     } else {
       customPaint = null;
@@ -171,7 +187,13 @@ class _FaceDetectorViewState extends State<FaceDetectorView> {
 enum ScreenMode { liveFeed, gallery }
 
 class CameraView extends StatefulWidget {
-  CameraView({Key? key, required this.title, required this.customPaint, required this.onImage, this.initialDirection = CameraLensDirection.back}) : super(key: key);
+  CameraView(
+      {Key? key,
+      required this.title,
+      required this.customPaint,
+      required this.onImage,
+      this.initialDirection = CameraLensDirection.back})
+      : super(key: key);
 
   final String title;
   final CustomPaint? customPaint;
@@ -219,7 +241,11 @@ class _CameraViewState extends State<CameraView> {
             child: GestureDetector(
               onTap: _switchScreenMode,
               child: Icon(
-                _mode == ScreenMode.liveFeed ? Icons.photo_library_outlined : (Platform.isIOS ? Icons.camera_alt_outlined : Icons.camera),
+                _mode == ScreenMode.liveFeed
+                    ? Icons.photo_library_outlined
+                    : (Platform.isIOS
+                        ? Icons.camera_alt_outlined
+                        : Icons.camera),
               ),
             ),
           ),
@@ -239,7 +265,9 @@ class _CameraViewState extends State<CameraView> {
         width: 70.0,
         child: FloatingActionButton(
           child: Icon(
-            Platform.isIOS ? Icons.flip_camera_ios_outlined : Icons.flip_camera_android_outlined,
+            Platform.isIOS
+                ? Icons.flip_camera_ios_outlined
+                : Icons.flip_camera_android_outlined,
             size: 40,
           ),
           onPressed: _switchLiveCamera,
@@ -373,12 +401,17 @@ class _CameraViewState extends State<CameraView> {
     }
     final bytes = allBytes.done().buffer.asUint8List();
 
-    final Size imageSize = Size(image.width.toDouble(), image.height.toDouble());
+    final Size imageSize =
+        Size(image.width.toDouble(), image.height.toDouble());
 
     final camera = cameras[_cameraIndex];
-    final imageRotation = InputImageRotationMethods.fromRawValue(camera.sensorOrientation) ?? InputImageRotation.Rotation_0deg;
+    final imageRotation =
+        InputImageRotationMethods.fromRawValue(camera.sensorOrientation) ??
+            InputImageRotation.Rotation_0deg;
 
-    final inputImageFormat = InputImageFormatMethods.fromRawValue(image.format.raw) ?? InputImageFormat.NV21;
+    final inputImageFormat =
+        InputImageFormatMethods.fromRawValue(image.format.raw) ??
+            InputImageFormat.NV21;
 
     final planeData = image.planes.map(
       (Plane plane) {
@@ -397,7 +430,8 @@ class _CameraViewState extends State<CameraView> {
       planeData: planeData,
     );
 
-    final inputImage = InputImage.fromBytes(bytes: bytes, inputImageData: inputImageData);
+    final inputImage =
+        InputImage.fromBytes(bytes: bytes, inputImageData: inputImageData);
 
     widget.onImage(inputImage);
   }
@@ -406,7 +440,8 @@ class _CameraViewState extends State<CameraView> {
 // -------------------------------------------------------------
 
 class TextDetectorPainter extends CustomPainter {
-  TextDetectorPainter(this.recognisedText, this.absoluteImageSize, this.rotation);
+  TextDetectorPainter(
+      this.recognisedText, this.absoluteImageSize, this.rotation);
 
   final RecognisedText recognisedText;
   final Size absoluteImageSize;
@@ -423,16 +458,24 @@ class TextDetectorPainter extends CustomPainter {
 
     for (final textBlock in recognisedText.blocks) {
       final ParagraphBuilder builder = ParagraphBuilder(
-        ParagraphStyle(textAlign: TextAlign.left, fontSize: 16, textDirection: TextDirection.ltr),
+        ParagraphStyle(
+            textAlign: TextAlign.left,
+            fontSize: 16,
+            textDirection: TextDirection.ltr),
       );
-      builder.pushStyle(ui.TextStyle(color: Colors.lightGreenAccent, background: background));
+      builder.pushStyle(
+          ui.TextStyle(color: Colors.lightGreenAccent, background: background));
       builder.addText('${textBlock.text}');
       builder.pop();
 
-      final left = translateX(textBlock.rect.left, rotation, size, absoluteImageSize);
-      final top = translateY(textBlock.rect.top, rotation, size, absoluteImageSize);
-      final right = translateX(textBlock.rect.right, rotation, size, absoluteImageSize);
-      final bottom = translateY(textBlock.rect.bottom, rotation, size, absoluteImageSize);
+      final left =
+          translateX(textBlock.rect.left, rotation, size, absoluteImageSize);
+      final top =
+          translateY(textBlock.rect.top, rotation, size, absoluteImageSize);
+      final right =
+          translateX(textBlock.rect.right, rotation, size, absoluteImageSize);
+      final bottom =
+          translateY(textBlock.rect.bottom, rotation, size, absoluteImageSize);
 
       canvas.drawRect(
         Rect.fromLTRB(left, top, right, bottom),
@@ -475,7 +518,8 @@ class FaceDetectorPainter extends CustomPainter {
           translateX(face.boundingBox.left, rotation, size, absoluteImageSize),
           translateY(face.boundingBox.top, rotation, size, absoluteImageSize),
           translateX(face.boundingBox.right, rotation, size, absoluteImageSize),
-          translateY(face.boundingBox.bottom, rotation, size, absoluteImageSize),
+          translateY(
+              face.boundingBox.bottom, rotation, size, absoluteImageSize),
         ),
         paint,
       );
@@ -515,26 +559,38 @@ class FaceDetectorPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(FaceDetectorPainter oldDelegate) {
-    return oldDelegate.absoluteImageSize != absoluteImageSize || oldDelegate.faces != faces;
+    return oldDelegate.absoluteImageSize != absoluteImageSize ||
+        oldDelegate.faces != faces;
   }
 }
 
-double translateX(double x, InputImageRotation rotation, Size size, Size absoluteImageSize) {
+double translateX(
+    double x, InputImageRotation rotation, Size size, Size absoluteImageSize) {
   switch (rotation) {
     case InputImageRotation.Rotation_90deg:
-      return x * size.width / (Platform.isIOS ? absoluteImageSize.width : absoluteImageSize.height);
+      return x *
+          size.width /
+          (Platform.isIOS ? absoluteImageSize.width : absoluteImageSize.height);
     case InputImageRotation.Rotation_270deg:
-      return size.width - x * size.width / (Platform.isIOS ? absoluteImageSize.width : absoluteImageSize.height);
+      return size.width -
+          x *
+              size.width /
+              (Platform.isIOS
+                  ? absoluteImageSize.width
+                  : absoluteImageSize.height);
     default:
       return x * size.width / absoluteImageSize.width;
   }
 }
 
-double translateY(double y, InputImageRotation rotation, Size size, Size absoluteImageSize) {
+double translateY(
+    double y, InputImageRotation rotation, Size size, Size absoluteImageSize) {
   switch (rotation) {
     case InputImageRotation.Rotation_90deg:
     case InputImageRotation.Rotation_270deg:
-      return y * size.height / (Platform.isIOS ? absoluteImageSize.height : absoluteImageSize.width);
+      return y *
+          size.height /
+          (Platform.isIOS ? absoluteImageSize.height : absoluteImageSize.width);
     default:
       return y * size.height / absoluteImageSize.height;
   }

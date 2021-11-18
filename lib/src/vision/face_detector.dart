@@ -21,7 +21,23 @@ enum FaceLandmarkType {
 }
 
 /// Available face contour types detected by [FaceDetector].
-enum FaceContourType { face, leftEyebrowTop, leftEyebrowBottom, rightEyebrowTop, rightEyebrowBottom, leftEye, rightEye, upperLipTop, upperLipBottom, lowerLipTop, lowerLipBottom, noseBridge, noseBottom, leftCheek, rightCheek }
+enum FaceContourType {
+  face,
+  leftEyebrowTop,
+  leftEyebrowBottom,
+  rightEyebrowTop,
+  rightEyebrowBottom,
+  leftEye,
+  rightEye,
+  upperLipTop,
+  upperLipBottom,
+  lowerLipTop,
+  lowerLipBottom,
+  noseBridge,
+  noseBottom,
+  leftCheek,
+  rightCheek
+}
 
 class FaceDetector {
   FaceDetector._(this.options);
@@ -35,7 +51,8 @@ class FaceDetector {
   Future<List<Face>> processImage(InputImage inputImage) async {
     _hasBeenOpened = true;
 
-    final result = await Vision.channel.invokeListMethod<dynamic>('vision#startFaceDetector', <String, dynamic>{
+    final result = await Vision.channel.invokeListMethod<dynamic>(
+        'vision#startFaceDetector', <String, dynamic>{
       'options': <String, dynamic>{
         'enableClassification': options.enableClassification,
         'enableLandmarks': options.enableLandmarks,
@@ -124,7 +141,9 @@ class Face {
         rightEyeOpenProbability = data['rightEyeOpenProbability'],
         smilingProbability = data['smilingProbability'],
         trackingId = data['trackingId'],
-        _landmarks = Map<FaceLandmarkType, FaceLandmark?>.fromIterables(FaceLandmarkType.values, FaceLandmarkType.values.map((FaceLandmarkType type) {
+        _landmarks = Map<FaceLandmarkType, FaceLandmark?>.fromIterables(
+            FaceLandmarkType.values,
+            FaceLandmarkType.values.map((FaceLandmarkType type) {
           final List<dynamic>? pos = data['landmarks'][_enumToString(type)];
           return (pos == null)
               ? null
@@ -133,14 +152,19 @@ class Face {
                   Offset(pos[0], pos[1]),
                 );
         })),
-        _contours = Map<FaceContourType, FaceContour?>.fromIterables(FaceContourType.values, FaceContourType.values.map((FaceContourType type) {
+        _contours = Map<FaceContourType, FaceContour?>.fromIterables(
+            FaceContourType.values,
+            FaceContourType.values.map((FaceContourType type) {
           /// added empty map to pass the tests
-          final List<dynamic>? arr = (data['contours'] ?? <String, dynamic>{})[_enumToString(type)];
+          final List<dynamic>? arr =
+              (data['contours'] ?? <String, dynamic>{})[_enumToString(type)];
           return (arr == null)
               ? null
               : FaceContour._(
                   type,
-                  arr.map<Offset>((dynamic pos) => Offset(pos[0], pos[1])).toList(),
+                  arr
+                      .map<Offset>((dynamic pos) => Offset(pos[0], pos[1]))
+                      .toList(),
                 );
         }));
 

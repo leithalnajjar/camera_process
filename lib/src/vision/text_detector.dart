@@ -15,7 +15,8 @@ class TextDetector {
   /// Function that takes [InputImage] processes it and returns a [RecognisedText] object.
   Future<RecognisedText> processImage(InputImage inputImage) async {
     _hasBeenOpened = true;
-    final result = await Vision.channel.invokeMethod('vision#startTextDetector', <String, dynamic>{'imageData': inputImage._getImageData()});
+    final result = await Vision.channel.invokeMethod('vision#startTextDetector',
+        <String, dynamic>{'imageData': inputImage._getImageData()});
 
     final recognisedText = RecognisedText.fromMap(result);
 
@@ -59,12 +60,14 @@ class RecognisedText {
 
 /// Class that has a block or group of words present in part of image.
 class TextBlock {
-  TextBlock._(this.text, this.lines, this.rect, this.recognizedLanguages, this.cornerPoints);
+  TextBlock._(this.text, this.lines, this.rect, this.recognizedLanguages,
+      this.cornerPoints);
 
   factory TextBlock.fromMap(Map<dynamic, dynamic> map) {
     final text = map['text'];
     final rect = _mapToRect(map['rect']);
-    final recognizedLanguages = _listToRecognizedLanguages(map['recognizedLanguages']);
+    final recognizedLanguages =
+        _listToRecognizedLanguages(map['recognizedLanguages']);
     final points = _listToCornerPoints(map['points']);
     final lines = <TextLine>[];
     for (var line in map['lines']) {
@@ -92,12 +95,14 @@ class TextBlock {
 
 /// Class that represents sentence present in a certain block.
 class TextLine {
-  TextLine._(this.text, this.elements, this.rect, this.recognizedLanguages, this.cornerPoints);
+  TextLine._(this.text, this.elements, this.rect, this.recognizedLanguages,
+      this.cornerPoints);
 
   factory TextLine.fromMap(Map<dynamic, dynamic> map) {
     final text = map['text'];
     final rect = _mapToRect(map['rect']);
-    final recognizedLanguages = _listToRecognizedLanguages(map['recognizedLanguages']);
+    final recognizedLanguages =
+        _listToRecognizedLanguages(map['recognizedLanguages']);
     final points = _listToCornerPoints(map['points']);
     final elements = <TextElement>[];
     for (var element in map['elements']) {
@@ -157,7 +162,8 @@ List<String> _listToRecognizedLanguages(List<dynamic> languages) {
 
 /// Convert map to Rect.
 Rect _mapToRect(Map<dynamic, dynamic> rect) {
-  var rec = Rect.fromLTRB((rect["left"]).toDouble(), (rect["top"]).toDouble(), (rect["right"]).toDouble(), (rect["bottom"]).toDouble());
+  var rec = Rect.fromLTRB((rect["left"]).toDouble(), (rect["top"]).toDouble(),
+      (rect["right"]).toDouble(), (rect["bottom"]).toDouble());
   return rec;
 }
 
