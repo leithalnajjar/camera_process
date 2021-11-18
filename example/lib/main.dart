@@ -3,9 +3,11 @@ import 'dart:ui';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
+// image_picker: ^0.7.2
 import 'package:image_picker/image_picker.dart';
+// camera: ^0.8.1
+import 'package:camera/camera.dart';
 import 'package:camera_process/camera_process.dart';
 
 List<CameraDescription> cameras = [];
