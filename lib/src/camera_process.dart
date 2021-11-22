@@ -1,4 +1,4 @@
-import 'vision/vision.dart';
+import 'vision/ml_vision.dart';
 
 class CameraProcess {
   CameraProcess._();

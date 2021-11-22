@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'camera_process'
-  s.version          = '0.0.5'
+  s.version          = '0.0.6'
   s.summary          = 'A new Flutter project.'
   s.description      = <<-DESC
 A new Flutter project.

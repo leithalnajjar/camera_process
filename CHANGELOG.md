@@ -22,3 +22,7 @@
 ## 0.0.5
 
 * TODO: format files
+
+## 0.0.6
+
+* TODO: fix google play services
