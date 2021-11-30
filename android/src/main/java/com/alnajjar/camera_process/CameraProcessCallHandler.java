@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 
 import com.alnajjar.camera_process.vision.FaceDetector;
 import com.alnajjar.camera_process.vision.TextDetector;
-import com.alnajjar.camera_process.vision.CustomRemoteModelManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,8 +24,7 @@ public class CameraProcessCallHandler implements MethodChannel.MethodCallHandler
         List<ApiDetectorInterface> detectors = new ArrayList<ApiDetectorInterface>(
                 Arrays.asList(
                         new FaceDetector(context),
-                        new TextDetector(context),
-                        new CustomRemoteModelManager()
+                        new TextDetector(context)
                 ));
 
         handlers = new HashMap<>();

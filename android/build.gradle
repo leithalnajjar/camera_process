@@ -38,5 +38,4 @@ android {
 dependencies{
     implementation 'com.google.mlkit:text-recognition:16.0.0-beta1'
     implementation 'com.google.android.gms:play-services-mlkit-face-detection:16.2.0'
-    implementation 'com.google.mlkit:linkfirebase:16.1.1'
 }

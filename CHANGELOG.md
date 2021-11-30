@@ -26,3 +26,7 @@
 ## 0.0.6
 
 * TODO: fix google play services
+
+## 0.0.6
+
+* TODO: fix google play services

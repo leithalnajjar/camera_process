@@ -4,11 +4,11 @@ This plugin, Recognize face and text from photos or camera, through the use of M
 
 ## Requirements
 
-###ios
+### ios
 
 - Minimum iOS Deployment Target: 10.0
 
-###Android
+### Android
 
 - minSdkVersion: 21
 - targetSdkVersion: 30
