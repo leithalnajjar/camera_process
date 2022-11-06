@@ -27,6 +27,10 @@
 
 * TODO: fix google play services
 
-## 0.0.6
+## 0.0.7
 
 * TODO: fix google play services
+
+## 1.0.0
+
+* TODO: flutter 3
