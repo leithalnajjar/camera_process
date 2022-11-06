@@ -11,7 +11,7 @@ This plugin, Recognize face and text from photos or camera, through the use of M
 ### Android
 
 - minSdkVersion: 21
-- targetSdkVersion: 30
+- targetSdkVersion: 33
 
 ## Features
 

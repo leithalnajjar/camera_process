@@ -34,3 +34,7 @@
 ## 1.0.0
 
 * TODO: flutter 3
+
+## 1.0.1
+
+* TODO: change readme.md
