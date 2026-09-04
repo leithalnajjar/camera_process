@@ -1,11 +1,24 @@
 name: camera_process
-description: This plugin, Recognize face and text from photos or camera, through the use of MLKit Google.
-version: 1.0.1
-homepage: https://github.com/leithalnajjar/camera_process.git
+description: >-
+  On-device face detection and text recognition for Flutter, powered by
+  Google ML Kit. Process still images or a live camera stream on Android and iOS.
+version: 1.1.0
+homepage: https://github.com/leithalnajjar/camera_process
+repository: https://github.com/leithalnajjar/camera_process
+issue_tracker: https://github.com/leithalnajjar/camera_process/issues
+funding:
+  - https://ko-fi.com/alnajjar
+
+topics:
+  - mlkit
+  - face-detection
+  - text-recognition
+  - camera
+  - ocr
 
 environment:
-  sdk: '>=2.18.0 <3.0.0'
-  flutter: ">=2.5.0"
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.10.0'
 
 dependencies:
   flutter:
@@ -14,6 +27,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

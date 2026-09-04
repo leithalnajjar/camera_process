@@ -39,6 +39,10 @@ enum FaceContourType {
   rightCheek
 }
 
+/// Detects faces in an [InputImage] using Google ML Kit.
+///
+/// Create one with [Vision.faceDetector] and call [processImage]. Call [close]
+/// to release the native detector when you are done.
 class FaceDetector {
   FaceDetector._(this.options);
 
@@ -72,6 +76,7 @@ class FaceDetector {
     return faces;
   }
 
+  /// Releases the native face detector resources.
   Future<void> close() async {
     if (!_hasBeenOpened) _isClosed = true;
     if (_isClosed) return Future<void>.value();

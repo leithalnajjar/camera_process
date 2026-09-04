@@ -4,14 +4,15 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'camera_process'
-  s.version          = '0.0.7'
-  s.summary          = 'A new Flutter project.'
+  s.version          = '1.1.0'
+  s.summary          = 'On-device face detection and text recognition for Flutter, powered by Google ML Kit.'
   s.description      = <<-DESC
-A new Flutter project.
+On-device face detection and text recognition for Flutter, powered by Google ML Kit.
+Process still images or a live camera stream on Android and iOS.
                        DESC
-  s.homepage         = 'https://github.com/leithalnajjar/camera_process.git'
-  s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.homepage         = 'https://github.com/leithalnajjar/camera_process'
+  s.license          = { :type => 'MIT', :file => '../LICENSE' }
+  s.author           = { 'Leith Alnajjar' => 'leith.najjar@gmail.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
@@ -19,7 +20,7 @@ A new Flutter project.
   s.platform                = :ios, '10.0'
   s.ios.deployment_target   = '10.0'
   s.static_framework = true
-  # mlkit vision
+  # ML Kit vision
   s.dependency 'GoogleMLKit/FaceDetection', '~> 2.2.0'
   s.dependency 'GoogleMLKit/TextRecognition', '~> 2.2.0'
   # Flutter.framework does not contain a i386 slice.

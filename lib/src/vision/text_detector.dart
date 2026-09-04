@@ -4,8 +4,8 @@ part of 'vision.dart';
 /// It returns [RecognisedText] which contains the info present in the image.
 ///
 /// Creating an instance of [TextDetector].
-/// TextDetector textDetector = CameraProcess.instance.textDetector();
-/// Call the [processImage()] to process the image.
+/// TextDetector textDetector = CameraProcess.vision.textDetector();
+/// Call the [processImage] to process the image.
 class TextDetector {
   TextDetector._();
 
@@ -23,6 +23,7 @@ class TextDetector {
     return recognisedText;
   }
 
+  /// Releases the native text detector resources.
   Future<void> close() async {
     if (!_hasBeenOpened) _isClosed = true;
     if (_isClosed) return Future<void>.value();
@@ -31,13 +32,14 @@ class TextDetector {
   }
 }
 
+/// The script the text recognizer should be optimized for.
 enum TextRecognitionOptions { DEFAULT, CHINESE, DEVANAGIRI, JAPANESE, KOREAN }
 
 /// Class that gives the detected text.
 /// Recognised text hierarchy.
-/// Recognised Text ---> List<TextBlock> (Blocks of text identified in the image).
-/// TextBlock ---> List<TextLine> (Lines of text present in a certain identified block).
-/// TextLine ---> List<TextElement> (Fundamental part of a block i.e usually a word or sentence)
+/// Recognised Text ---> `List<TextBlock>` (Blocks of text identified in the image).
+/// TextBlock ---> `List<TextLine>` (Lines of text present in a certain identified block).
+/// TextLine ---> `List<TextElement>` (Fundamental part of a block i.e usually a word or sentence)
 class RecognisedText {
   RecognisedText._(this.text, this.blocks);
 

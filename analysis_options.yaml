@@ -1,4 +1,18 @@
 include: package:flutter_lints/flutter.yaml
 
+analyzer:
+  exclude:
+    - build/**
+    - android/**
+    - ios/**
+    - example/**
+
+linter:
+  rules:
+    # The public enum members (e.g. InputImageFormat.NV21, InputImageRotation.Rotation_90deg,
+    # TextRecognitionOptions.DEFAULT) mirror the native ML Kit constant names. Renaming them
+    # would be a breaking API change, so this lint is disabled to keep analysis clean.
+    constant_identifier_names: false
+
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

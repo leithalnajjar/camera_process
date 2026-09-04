@@ -7,7 +7,7 @@ part 'face_detector.dart';
 
 part 'text_detector.dart';
 
-// To indicate the format of image while creating input image from bytes
+/// The pixel format of an image when creating an [InputImage] from bytes.
 enum InputImageFormat { NV21, YV12, YUV_420_888, YUV420, BGRA8888 }
 
 extension InputImageFormatMethods on InputImageFormat {
@@ -28,10 +28,10 @@ extension InputImageFormatMethods on InputImageFormat {
   }
 }
 
-// To specify whether tflite models are stored in asset directory or file stored in device
+/// Where a custom local TFLite model is stored: bundled [asset] or on-device [file].
 enum CustomLocalModel { asset, file }
 
-// The camera rotation angle to be specified
+/// The clockwise rotation of the camera image, in degrees.
 enum InputImageRotation {
   Rotation_0deg,
   Rotation_90deg,
@@ -55,17 +55,21 @@ extension InputImageRotationMethods on InputImageRotation {
   }
 }
 
-/// Get instance of the individual api's using instance of [Vision]
-/// For example
-/// To get an instance of [ImageLabeler]
-/// ImageLabeler imageLabeler = GoogleMlKit.instance.imageLabeler();
-
+/// Factory for the individual ML Kit detectors.
+///
+/// Access it through [CameraProcess.vision] and create a detector, e.g.:
+///
+/// ```dart
+/// final textDetector = CameraProcess.vision.textDetector();
+/// final faceDetector = CameraProcess.vision.faceDetector();
+/// ```
 class Vision {
   Vision._();
 
+  /// The [MethodChannel] used to talk to the native ML Kit implementation.
   static const MethodChannel channel = MethodChannel('camera_process');
 
-  // Creates an instance of [GoogleMlKit] by calling the private constructor
+  /// The singleton [Vision] instance.
   static final Vision instance = Vision._();
 
   /// Return an instance of [TextDetector].
@@ -87,14 +91,10 @@ class Vision {
 /// [InputImage] is the format Google' Ml kit takes to process the image
 class InputImage {
   InputImage._(
-      {String? filePath,
-      Uint8List? bytes,
-      required String imageType,
-      InputImageData? inputImageData})
-      : filePath = filePath,
-        bytes = bytes,
-        imageType = imageType,
-        inputImageData = inputImageData;
+      {this.filePath,
+      this.bytes,
+      required this.imageType,
+      this.inputImageData});
 
   /// Create InputImage from path of image stored in device.
   factory InputImage.fromFilePath(String path) {
@@ -196,6 +196,7 @@ class InputImagePlaneMetadata {
 
 /// Class to manage firebase remote models.
 class RemoteModelManager {
+  /// Returns `true` if the model named [modelName] is already downloaded.
   Future<bool> isModelDownloaded(String modelName) async {
     final result = await Vision.channel.invokeMethod('vision#manageRemoteModel',
         <String, dynamic>{"task": "check", "model": modelName});

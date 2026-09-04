@@ -1,0 +1,42 @@
+// swift-tools-version: 5.9
+// -----------------------------------------------------------------------------
+// SPM SCAFFOLD (INACTIVE)
+//
+// This file is intentionally named `Package.swift.template` so Flutter's tooling
+// does NOT pick it up yet. Activate it by renaming to `Package.swift` ONLY once
+// Google ML Kit ships a Swift Package Manager distribution.
+//
+// Blocker: GoogleMLKit (GoogleMLKit/FaceDetection, GoogleMLKit/TextRecognition)
+// is distributed via CocoaPods only and has no official SPM product, so the
+// `.package`/`.product` ML Kit dependencies below cannot resolve today. See
+// ../SPM.md for the full migration checklist.
+// -----------------------------------------------------------------------------
+import PackageDescription
+
+let package = Package(
+    name: "camera_process",
+    platforms: [
+        .iOS("12.0"),
+    ],
+    products: [
+        .library(name: "camera-process", targets: ["camera_process"]),
+    ],
+    dependencies: [
+        // TODO: add the Google ML Kit SPM package here once it exists, e.g.
+        // .package(url: "https://github.com/google/GoogleMLKit-spm.git", from: "x.y.z"),
+    ],
+    targets: [
+        .target(
+            name: "camera_process",
+            dependencies: [
+                // TODO: link the ML Kit products (FaceDetection, TextRecognition)
+                // once the SPM package above is available.
+            ],
+            path: "Classes",
+            publicHeadersPath: "include",
+            cSettings: [
+                .headerSearchPath("include/camera_process"),
+            ]
+        ),
+    ]
+)
